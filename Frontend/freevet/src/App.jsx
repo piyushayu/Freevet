@@ -3,6 +3,7 @@ import Header from './components/Header';
 import MainBody from './components/MainBody';
 import Diseases from './components/Diseases/Diseases';
 import Animalcard from './components/Diseases/Animalcard';
+import Problems from './components/Allproblems/Problems';
 //import Signup from './components/Signing/Signup';
 // import Signcomponent from './components/Signing/Signup';
 // import Logincomponent from './components/Signing/Loginup';
@@ -31,10 +32,19 @@ import Animalcard from './components/Diseases/Animalcard';
 
 
 
+// function App() {
+//   return (
+//     <div>
+//      <Diseases/> 
+//     </div>
+//   )
+// }
+
+
 function App() {
   return (
     <div>
-     <Diseases/> 
+      <Problems/>
     </div>
   )
 }

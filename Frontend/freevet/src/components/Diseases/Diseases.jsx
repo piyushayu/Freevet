@@ -58,16 +58,6 @@ const Allanimals = [
   }
 ]
 
-
-// const [ warn , setWarn] = useState(true)
-
-// function Warninginfo(){
-//   return (
-//     setWarn(false)
-//   )
-// }
-
-
 function Diseases() {
 
   const [ warn , setWarn] = useState(false)

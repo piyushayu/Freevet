@@ -9,9 +9,9 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
- function Animalcard({
+ function Diseasecard({
   Name , 
-  Info ,
+  Info 
  }) {
   return (
     <Card className="relative mx-auto w-full max-w-sm pt-0">
@@ -24,7 +24,11 @@ import {
       <CardHeader>
         <CardTitle>{Name}</CardTitle>
         <CardDescription>
-         {Info}
+         {
+            Info.map((point) => (
+                <li key={point.id}>{point.text}</li>
+            ))
+         }
         </CardDescription>
       </CardHeader>
       <CardFooter>
@@ -34,4 +38,4 @@ import {
   )
 }
 
-export default Animalcard
+export default Diseasecard
