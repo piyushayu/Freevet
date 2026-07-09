@@ -7,7 +7,8 @@ function Wideinfo({
     context,
     overview = [],
     symptoms = [],
-    medicine = []
+    medicine = [],
+    treatment = []
 }) {
   return (
     <div className='flex flex-col gap-6 w-full max-w-3xl mx-auto bg-neutral-900/50 p-6 rounded-2xl border border-neutral-800'>
@@ -86,22 +87,17 @@ function Wideinfo({
       <hr className='border-neutral-800/80' />
 
       <div className='flex flex-col gap-4'>
-        {/* Section Heading */}
-        <div className='h-4 bg-neutral-600 rounded-md w-36'></div>
+      
+        <div className='h-6 bg-neutral-600 rounded-full w-50 ml-1 flex justify-center items-center'>
+          TREATMENT & CURE
+        </div>
         
         <div className='flex flex-col gap-3.5 pl-1'>
-          <div className='flex items-center gap-3'>
-            <div className='w-1.5 h-1.5 rounded-full bg-neutral-700 shrink-0'></div>
-            <div className='h-4 bg-neutral-700 rounded-md w-[88%]'></div>
-          </div>
-          <div className='flex items-center gap-3'>
-            <div className='w-1.5 h-1.5 rounded-full bg-neutral-700 shrink-0'></div>
-            <div className='h-4 bg-neutral-700 rounded-md w-[80%]'></div>
-          </div>
-          <div className='flex items-center gap-3'>
-            <div className='w-1.5 h-1.5 rounded-full bg-neutral-700 shrink-0'></div>
-            <div className='h-4 bg-neutral-700 rounded-md w-[85%]'></div>
-          </div>
+        {
+            treatment.map((treat) => (
+                <li key={treat.id} className='ml-6 '>{treat.text}</li>
+            ))
+        }
         </div>
       </div>
 

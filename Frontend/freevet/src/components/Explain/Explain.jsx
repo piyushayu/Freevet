@@ -23,6 +23,11 @@ const Particulardisease = [
                     "jlkdfjeiiehenen"
                 ]
             }
+        ] ,
+        Treatment : [
+          "ioeiorei",
+          "pierpeinc",
+          "pewioruep"
         ]
     }
 ]
@@ -35,7 +40,8 @@ const Idofoverview = Particulardisease.map((dis) => ({
           ...med,
           id: nanoid(),
           sideeffect: med.sideeffect.map((effect) => ({ text: effect, id: nanoid() }))
-     }))
+     })) ,
+     Treatment : dis.Treatment.map((text) => ({text , id : nanoid()}))
 }))
 
 function Explain() {
@@ -50,6 +56,7 @@ function Explain() {
           overview={Idofoverview[0]?.overview || []}
           symptoms={Idofoverview[0]?.Symptoms|| []}
           medicine={Idofoverview[0]?.Medicine || []}
+          treatment={Idofoverview[0]?.Treatment || []}
         />
       </div>
     </div>
