@@ -5,6 +5,7 @@ import Diseases from './components/Diseases/Diseases';
 import Animalcard from './components/Diseases/Animalcard';
 import Problems from './components/Allproblems/Problems';
 import Explain from './components/Explain/Explain';
+import Symcheck from './components/Symptomcheck/Symcheck';
 //import Signup from './components/Signing/Signup';
 // import Signcomponent from './components/Signing/Signup';
 // import Logincomponent from './components/Signing/Loginup';
@@ -46,7 +47,8 @@ function App() {
   return (
     <div>
       {/* <Problems/> */}
-      <Explain/>
+      {/* <Explain/> */}
+    <Symcheck/>
     </div>
   )
 }
