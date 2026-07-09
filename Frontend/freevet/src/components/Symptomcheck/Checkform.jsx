@@ -1,8 +1,8 @@
-import React from 'react'
+import { nanoid } from 'nanoid'
+import React, { useState } from 'react'
 
 const QUESTIONS_DATA = [
   {
-    id: 1,
     question: "What primary symptoms is your animal companion displaying?",
     options: [
       { key: "A", text: "Extreme tiredness, lethargy, or weakness" },
@@ -12,7 +12,6 @@ const QUESTIONS_DATA = [
     ]
   },
   {
-    id: 2,
     question: "How long have these symptoms been present?",
     options: [
       { key: "A", text: "Just started today (under 24 hours)" },
@@ -22,7 +21,6 @@ const QUESTIONS_DATA = [
     ]
   },
   {
-    id: 3,
     question: "Is there any other noticeable change in behavior?",
     options: [
       { key: "A", text: "High body temperature / fever" },
@@ -57,23 +55,70 @@ const RESULTS_DATA = [
   }
 ]
 
+const Newquestions = QUESTIONS_DATA.map((questn) => (
+  { ...questn , id : nanoid() , options : questn.options.map((text) => ({text , id : nanoid()}))}
+))
+
 function Checkform() {
-  const currentQuestion = QUESTIONS_DATA[0]
-  const totalQuestions = QUESTIONS_DATA.length
+  
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  // 2. Stores the selected options for each question index in a key-value object.
+  //    Example format: { 0: "A", 1: "C" }
+  const [selectedAnswers, setSelectedAnswers] = useState({})
+
+  const [isSubmitted, setIsSubmitted] = useState(false)
+
+  // --- DERIVED PROPERTIES ---
+  const currentQuestion = Newquestions[currentIndex]
+  const totalQuestions = Newquestions.length
+  const isLastQuestion = currentIndex === totalQuestions - 1
+  const isAnswered = selectedAnswers[currentIndex] !== undefined
+
+  // --- ACTION HANDLERS ---
+
+  // Triggers when an option button (A, B, C, D) is clicked
+  const handleOptionSelect = (optionKey) => {
+    setSelectedAnswers({
+      ...selectedAnswers,
+      [currentIndex]: optionKey // Updates or sets the answer for the current question index
+    })
+  }
+
+  // Progresses to the next question or completes the wizard
+  const handleNext = () => {
+    if (isLastQuestion) {
+      setIsSubmitted(true) // Triggers final submission and reveals the diagnosis section below
+    } else {
+      setCurrentIndex((prev) => prev + 1) // Moves to the next question
+    }
+  }
+
+  // Returns to the previous question
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((prev) => prev - 1) // Moves back one index step
+    }
+  }
+
+  // Resets the quiz wizard state to start fresh
+  const handleReset = () => {
+    setCurrentIndex(0)
+    setSelectedAnswers({})
+    setIsSubmitted(false)
+  }
 
   return (
     <div className="w-full max-w-3xl mx-auto flex flex-col gap-6">
       
-      {/* 1. Main Question Card */}
       <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 md:p-8 flex flex-col gap-6">
         
-        {/* Header/Title Row */}
         <div className="flex items-center justify-between">
           <div className="px-4 py-1.5 bg-neutral-800 text-neutral-300 text-xs font-semibold rounded-full tracking-wider uppercase border border-neutral-700">
             symptoms finder
           </div>
           <div className="text-xs text-neutral-400 font-medium">
-            Question 1 of {totalQuestions}
+            Question {currentIndex + 1} of {totalQuestions}
           </div>
         </div>
 
@@ -84,102 +129,119 @@ function Checkform() {
           </h2>
         </div>
 
-        {/* Options to Choose */}
         <div className="flex flex-col gap-3">
           {currentQuestion.options.map((option) => {
-            // Statically style option 'A' as selected to show both selected & unselected designs
-            const isSelected = option.key === 'A'
+            // Checks if this option is currently selected for the active question
+            const isSelected = selectedAnswers[currentIndex] === option.text.key
             return (
               <button
-                key={option.key}
-                disabled
-                className={`w-full flex items-center gap-4 px-5 py-4 rounded-xl border text-left text-sm transition-all duration-300 ${
+                key={option.id}
+                onClick={() => handleOptionSelect(option.text.key)}
+                className={`w-full flex items-center gap-4 px-5 py-4 rounded-xl border text-left text-sm transition-all duration-300 cursor-pointer ${
                   isSelected
                     ? "bg-white text-neutral-950 font-semibold border-white shadow-lg"
-                    : "bg-neutral-950/40 border-neutral-800 text-neutral-300"
+                    : "bg-neutral-950/40 border-neutral-800 hover:border-neutral-700 text-neutral-300 hover:bg-neutral-800/30"
                 }`}
               >
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border ${
+                {/* Option Letter Circle */}
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border transition-colors ${
                   isSelected
                     ? "bg-neutral-950 text-white border-neutral-950"
                     : "bg-neutral-800/50 text-neutral-400 border-neutral-700"
                 }`}>
-                  {option.key}
+                  {option.text.key}
                 </div>
-                <span>{option.text}</span>
+                <span>{option.text.text}</span>
               </button>
             )
           })}
         </div>
 
-        {/* Action Controls */}
         <div className="flex items-center justify-between mt-4">
-          {/* Previous Button */}
-          <button
-            disabled
-            className="px-6 py-2.5 bg-neutral-800 text-neutral-400 border border-neutral-700 rounded-xl text-sm font-medium opacity-60"
-          >
-            previous
-          </button>
-
-          {/* Submit Button (White style) */}
-          <button
-            disabled
-            className="px-6 py-2.5 bg-white text-neutral-950 rounded-xl text-sm font-semibold shadow-md"
-          >
-            Submit
-          </button>
-        </div>
-
-      </div>
-
-      {/* 2. Results Section (Visible below the questionnaire card) */}
-      <div className="flex flex-col gap-4 mt-2">
-        
-        <div className="flex items-center justify-between px-1">
-          <h3 className="text-xs font-bold text-neutral-400 tracking-wider uppercase">
-            Possible Diagnoses
-          </h3>
-        </div>
-
-        {/* Three disease cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {RESULTS_DATA.map((result) => (
-            <div
-              key={result.id}
-              className="bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:border-neutral-700 hover:shadow-xl"
+          {/* Previous Button: Hidden if we are on the first question, or once submitted */}
+          {currentIndex > 0 && !isSubmitted ? (
+            <button
+              onClick={handlePrevious}
+              className="px-6 py-2.5 bg-neutral-800 hover:bg-neutral-750 text-neutral-300 border border-neutral-700 rounded-xl text-sm font-medium transition-all cursor-pointer active:scale-[0.98]"
             >
-              {/* Picture */}
-              <div className="h-32 bg-neutral-950 relative overflow-hidden flex items-center justify-center">
-                <img
-                  src={result.image}
-                  alt={result.name}
-                  className="w-full h-full object-cover opacity-80"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 to-transparent" />
-              </div>
+              previous
+            </button>
+          ) : (
+            <div /> // Placeholder div to align the "Next/Submit" button to the right side
+          )}
 
-              {/* Content Area */}
-              <div className="p-4 flex flex-col gap-2 flex-grow">
-                <h4 className="font-semibold text-sm text-neutral-200">
-                  {result.name}
-                </h4>
-                <p className="text-xs text-neutral-400 line-clamp-2 leading-relaxed flex-grow">
-                  {result.desc}
-                </p>
-                <a
-                  href={result.link}
-                  onClick={(e) => e.preventDefault()}
-                  className="mt-2 inline-flex items-center justify-center w-full py-2 bg-neutral-800 border border-neutral-700 text-neutral-200 text-xs font-semibold rounded-lg transition-all"
-                >
-                  View Details
-                </a>
-              </div>
-            </div>
-          ))}
+          {/* Next / Submit Button: Hidden after final submission */}
+          {!isSubmitted && (
+            <button
+              onClick={handleNext}
+              disabled={!isAnswered} // Disabled until an option is selected for the current question
+              className={`px-6 py-2.5 text-sm font-semibold rounded-xl transition-all duration-300 cursor-pointer active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed ${
+                isLastQuestion
+                  ? "bg-white text-neutral-950 hover:bg-neutral-100 shadow-md"
+                  : "bg-neutral-800 hover:bg-neutral-750 text-neutral-200 border border-neutral-700"
+              }`}
+            >
+              {isLastQuestion ? "Submit" : "Next"}
+            </button>
+          )}
         </div>
 
       </div>
+
+      {/* 2. Results Section (Becomes visible below only after form submission) */}
+      {isSubmitted && (
+        <div className="flex flex-col gap-4 mt-2 animate-fade-in">
+          
+          <div className="flex items-center justify-between px-1">
+            <h3 className="text-xs font-bold text-neutral-400 tracking-wider uppercase">
+              Possible Diagnoses
+            </h3>
+            <button 
+              onClick={handleReset}
+              className="text-xs text-neutral-400 hover:text-white underline cursor-pointer"
+            >
+              Start Over
+            </button>
+          </div>
+
+          {/* Three disease cards grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {RESULTS_DATA.map((result) => (
+              <div
+                key={result.id}
+                className="bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden flex flex-col transition-all duration-300 hover:border-neutral-700 hover:shadow-xl"
+              >
+                {/* Disease Picture */}
+                <div className="h-32 bg-neutral-950 relative overflow-hidden flex items-center justify-center">
+                  <img
+                    src={result.image}
+                    alt={result.name}
+                    className="w-full h-full object-cover opacity-80"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-neutral-900 to-transparent" />
+                </div>
+
+                {/* Disease content details */}
+                <div className="p-4 flex flex-col gap-2 ">
+                  <h4 className="font-semibold text-sm text-neutral-200">
+                    {result.name}
+                  </h4>
+                  <p className="text-xs text-neutral-400 line-clamp-2 leading-relaxed">
+                    {result.desc}
+                  </p>
+                  <a
+                    href={result.link}
+                    className="mt-2 inline-flex items-center justify-center w-full py-2 bg-neutral-800 hover:bg-neutral-750 border border-neutral-700 text-neutral-200 text-xs font-semibold rounded-lg transition-all"
+                  >
+                    View Details
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      )}
 
     </div>
   )
