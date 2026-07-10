@@ -29,7 +29,7 @@ function Header({
       mergedClassName
     )} >
     
-      <div className="flex items-center justify-center gap-3 group cursor-pointer">
+      <Link to="/" className="flex items-center justify-center gap-3 group cursor-pointer decoration-transparent">
         <div className="w-10 h-10 rounded-xl bg-linear-to-tr from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg group-hover:scale-105">
         
           <svg
@@ -40,7 +40,7 @@ function Header({
         <span className="font-bold text-lg tracking-wide text-white bg-clip-text hover:text-transparent hover:bg-linear-to-r hover:from-white hover:to-neutral-400 transition-all duration-300">
           Freevet
         </span>
-      </div>
+      </Link>
 
       <nav className="hidden md:flex items-center gap-6 bg-neutral-950/40 p-1.5 rounded-xl border border-white/5">
         {navItems.map((item) => (
@@ -55,8 +55,8 @@ function Header({
       </nav>
 
       <div className="flex items-center gap-3">
-        <Button variant="outline">Login</Button>
-        <Button variant="primary">Signup</Button>
+        <Link to="/login"><Button variant="outline">Login</Button></Link>
+        <Link to="/signup"><Button variant="primary">Signup</Button></Link>
       </div>
     </header>
   );

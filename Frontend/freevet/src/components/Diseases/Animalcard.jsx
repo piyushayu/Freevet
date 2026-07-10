@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Link } from "react-router-dom"
 
  function Animalcard({
   Name , 
@@ -28,7 +29,7 @@ import {
         </CardDescription>
       </CardHeader>
       <CardFooter>
-        <Button className="w-full"> Explore </Button>
+        <Link to="explain"><Button className="w-full"> Explore </Button></Link>
       </CardFooter>
     </Card>
   )

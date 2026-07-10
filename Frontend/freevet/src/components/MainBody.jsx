@@ -23,7 +23,7 @@ function MainBody() {
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-white leading-tight tracking-tight">
             Your Virtual Companion for{' '}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-indigo-300 to-purple-400">
+            <span className="bg-clip-text text-transparent bg-linear-to-r from-violet-400 via-indigo-300 to-purple-400">
               Animal Health
             </span>{' '}
             and Consultation
