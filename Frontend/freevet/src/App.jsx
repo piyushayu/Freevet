@@ -6,6 +6,8 @@ import Animalcard from './components/Diseases/Animalcard';
 import Problems from './components/Allproblems/Problems';
 import Explain from './components/Explain/Explain';
 import Symcheck from './components/Symptomcheck/Symcheck';
+import About from './components/Siteinfo/About';
+import Info from './components/Siteinfo/Info';
 // import Option1Parent from './components/Symptomcheck/Quizandresult';
 //import Signup from './components/Signing/Signup';
 // import Signcomponent from './components/Signing/Signup';
@@ -50,8 +52,10 @@ function App() {
       <Header className='mt-4'/>
       {/* <Problems/> */}
       {/* <Explain/> */}
-    <Symcheck/>
+    {/* <Symcheck/> */}
     {/* <Option1Parent/> */}
+    {/* <About/> */}
+    <Info/>
     </div>
   )
 }
