@@ -8,6 +8,8 @@ import Explain from './components/Explain/Explain';
 import Symcheck from './components/Symptomcheck/Symcheck';
 import About from './components/Siteinfo/About';
 import Info from './components/Siteinfo/Info';
+import Profile from './components/Profile/Profile';
+import Profilecomp from './components/Profile/Profilecomp';
 // import Option1Parent from './components/Symptomcheck/Quizandresult';
 //import Signup from './components/Signing/Signup';
 // import Signcomponent from './components/Signing/Signup';
@@ -55,7 +57,9 @@ function App() {
     {/* <Symcheck/> */}
     {/* <Option1Parent/> */}
     {/* <About/> */}
-    <Info/>
+    {/* <Info/> */}
+    {/* <Profile/> */}
+    <Profilecomp/>
     </div>
   )
 }
