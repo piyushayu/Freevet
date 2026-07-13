@@ -12,6 +12,9 @@ import Signcomponent from './components/Signing/Signup'
 import Logincomponent from './components/Signing/Loginup'
 import Explain from './components/Explain/Explain'
 import Problems from './components/Allproblems/Problems'
+import { Provider } from 'react-redux'
+import Store from 'services/store'
+import Profilecomp from './components/Profile/Profilecomp'
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +31,7 @@ const Router = createBrowserRouter(
     <Route path='symptoms' element={<Symcheck/>}/>
     <Route path='signup' element={<Signcomponent/>}/>
     <Route path='login' element={<Logincomponent/>}/>
+    <Route path='profile' element={<Profilecomp/>}/>
     
     </Route>
 
@@ -36,7 +40,9 @@ const Router = createBrowserRouter(
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <Provider store={Store} >
     <RouterProvider router = {Router} />
+    </Provider>
   </StrictMode>,
 )
 

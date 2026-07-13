@@ -12,7 +12,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 import ReactLogo from "../../assets/react.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { signup } from "services/Slice";
+
+
+const DEMO_API_URL = "https://jsonplaceholder.typicode.com/posts";
 
 function Signimage() {
   return (
@@ -22,7 +28,45 @@ function Signimage() {
   )
 }
 
-function Signup() {
+function Signupform() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
+
+    
+    const payload = { email, password }
+
+    try {
+      const response = await fetch(DEMO_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+      const success = response.ok
+
+      if (success) {
+        
+        dispatch(signup({ userData: { email } }))
+        navigate("/")
+      } else {
+        setError("Signup failed. Please try again.")
+      }
+    } catch (err) {
+      setError("Network error. Please check your connection.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <Card className="w-full border-none shadow-none bg-transparent p-6 md:p-8 flex flex-col justify-center">
       <CardHeader className="p-0 mb-6">
@@ -32,50 +76,60 @@ function Signup() {
         </CardDescription>
       </CardHeader>
       <CardContent className="p-0">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-7">
             <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="signup-email">Email</Label>
               <Input
-                id="email"
+                id="signup-email"
                 type="email"
                 placeholder="m@example.com"
                 required
                 className="h-10"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <a
-                  href="#"
-                  className="ml-auto inline-block text-xs text-muted-foreground underline-offset-4 hover:underline "
-                >
-                  Forgot your password?
-                </a>
-              </div>
-              <Input id="password" type="password" required className="h-10" placeholder="password"/>
+              <Label htmlFor="signup-password">Password</Label>
+              <Input
+                id="signup-password"
+                type="password"
+                required
+                className="h-10"
+                placeholder="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            {error && (
+              <p className="text-sm text-red-500">{error}</p>
+            )}
+          </div>
+
+          <div className="mt-6 flex flex-col gap-3">
+            <Button type="submit" className="w-full h-10 font-medium" disabled={loading}>
+              {loading ? "Signing up..." : "Signup"}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full h-10 font-medium flex items-center justify-center gap-2"
+            >
+              Signup with Google
+            </Button>
+
+            <div className="flex flex-row items-center justify-center text-xs text-muted-foreground mt-2">
+              <span>Already have an account?</span>
+              <CardAction className="inline ml-1">
+               <Link to="/login"><Button variant="link" className="p-0 mb-0.5 text-primary underline-offset-4 hover:underline">
+                  Login
+                </Button></Link>
+              </CardAction>
             </div>
           </div>
         </form>
       </CardContent>
-      <CardFooter className="p-0 mt-6 flex-col gap-3">
-        <Button type="submit" className="w-full h-10 font-medium">
-          Signup
-        </Button>
-        <Button variant="outline" className="w-full h-10 font-medium flex items-center justify-center gap-2">
-          Signup with Google
-        </Button>
-
-        <div className="flex flex-row items-center justify-center text-xs text-muted-foreground mt-2">
-          <span>Already have an account?</span>
-          <CardAction className="inline ml-1">
-           <Link to="/login"><Button variant="link" className="p-0 mb-0.5 text-primary underline-offset-4 hover:underline">
-              Login
-            </Button></Link>
-          </CardAction>
-        </div>
-      </CardFooter>
     </Card>
   )
 }
@@ -86,7 +140,7 @@ function Signcomponent() {
       {/* Unified Split Container */}
       <div className=" w-full max-w-5xl grid md:grid-cols-2 bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200/80 dark:border-zinc-800 shadow-2xl overflow-hidden items-stretch">
         <Signimage />
-        <Signup />
+        <Signupform />
       </div>
     </div>
   )
