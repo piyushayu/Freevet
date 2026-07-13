@@ -1,13 +1,24 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 function Profile({
-  user = {},
   bookmarks = [],
   likes = [],
   searches = [],
   editfunctn
 }) {
-  const initials = user.initials || (user.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'U');
+  const user = useSelector((state) => state.profile) || {};
+
+  const initials = user.initials
+    || (user.name
+        ? user.name
+            .trim()
+            .split(/\s+/)      
+            .filter(Boolean)       
+            .join('')
+            .toUpperCase()     
+        : 'U');
+
 
   return (
     <div className="w-full max-w-4xl mx-auto flex flex-col gap-6 text-neutral-100 p-4">

@@ -3,6 +3,7 @@ import Button from './Button';
 import {Link} from "react-router-dom"
 
 import { cn } from "@/lib/utils";
+import { useSelector } from 'react-redux';
 
 function Header({
   className = ""
@@ -22,6 +23,8 @@ function Header({
       href : "/symptoms"
     }
      ];
+
+     const isloggedIn = useSelector((state) => state.auth.status)
 
   return (
     <header className={cn(
@@ -53,11 +56,17 @@ function Header({
           </Link>
         ))}
       </nav>
-
-      <div className="flex items-center gap-3">
+  {isloggedIn ? (
+        <Link to="/profile">
+          <div className="w-9 h-9 rounded-full bg-purple-500 flex items-center justify-center">
+          </div>
+        </Link>
+      ) : (
+       <div className="flex items-center gap-3">
         <Link to="/login"><Button variant="outline">Login</Button></Link>
         <Link to="/signup"><Button variant="primary">Signup</Button></Link>
       </div>
+      )}
     </header>
   );
 }

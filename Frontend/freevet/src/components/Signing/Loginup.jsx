@@ -15,7 +15,7 @@ import ReactLogo from "../../assets/react.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "services/Slice";
+import { login } from "@/services/Slice";
 
 const DEMO_API_URL = "https://jsonplaceholder.typicode.com/posts";
 

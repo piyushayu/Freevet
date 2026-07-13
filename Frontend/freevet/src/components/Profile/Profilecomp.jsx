@@ -3,10 +3,9 @@ import Profile from './Profile'
 import EditProfile from './EditProfile'
 
 function Profilecomp() {
+  const [isedit, setIsedit] = useState(false)
 
-    const [isedit, setIsedit] = useState(false)
-
-    function onEditClick (){
+  function onEditClick() {
     setIsedit(true)
   }
 
@@ -16,7 +15,7 @@ function Profilecomp() {
 
   return (
     <div>
-      <Profile editfunctn={onEditClick} edit={isedit} />
+      <Profile editfunctn={onEditClick} />
       <EditProfile edit={isedit} cancelfunctn={onCancelClick} />
     </div>
   )

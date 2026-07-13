@@ -13,7 +13,7 @@ import Logincomponent from './components/Signing/Loginup'
 import Explain from './components/Explain/Explain'
 import Problems from './components/Allproblems/Problems'
 import { Provider } from 'react-redux'
-import Store from 'services/store'
+import Store from '@/services/store'
 import Profilecomp from './components/Profile/Profilecomp'
 
 const Router = createBrowserRouter(
