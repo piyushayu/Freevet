@@ -1,33 +1,29 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 function Profile({
   bookmarks = [],
   likes = [],
   searches = [],
-  editfunctn
+  editfunctn,
+  profileData,
 }) {
-  const user = useSelector((state) => state.profile) || {};
+  const user = profileData || {};
 
-  const initials = user.initials
-    || (user.name
-        ? user.name
-            .trim()
-            .split(/\s+/)      
-            .filter(Boolean)       
-            .join('')
-            .toUpperCase()     
-        : 'U');
-
+  const initials = user.name
+    ? user.name
+        .trim()
+        .split(/\s+/)
+        .map((word) => word[0])
+        .join('')
+        .toUpperCase()
+    : 'U';
 
   return (
     <div className="w-full max-w-4xl mx-auto flex flex-col gap-6 text-neutral-100 p-4">
-      {/* Title */}
       <div className="text-xs font-bold tracking-widest text-neutral-400 uppercase">
         Profile
       </div>
 
-      {/* Main Profile Info Card */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 bg-neutral-900 border border-neutral-800 rounded-2xl shadow-lg">
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-full bg-blue-900/50 border border-blue-700/30 flex items-center justify-center text-xl font-bold text-blue-400 select-none">
@@ -36,8 +32,8 @@ function Profile({
           <div className="flex flex-col">
             <h1 className="text-xl font-bold text-neutral-100">{user.name || 'User'}</h1>
             <p className="text-sm text-neutral-400">
-              {user.memberSince ? `Member since ${user.memberSince}` : ''}
-              {user.memberSince && user.location ? ' · ' : ''}
+              {user.member_since ? `Member since ${user.member_since}` : ''}
+              {user.member_since && user.location ? ' · ' : ''}
               {user.location || ''}
             </p>
           </div>
@@ -54,9 +50,8 @@ function Profile({
         </button>
       </div>
 
-      {/* Stats Counter Row */}
       <div className="grid grid-cols-3 gap-4">
-        {/* Bookmarks Stat */}
+       
         <div className="p-4 bg-neutral-900 border border-neutral-800 rounded-2xl shadow-sm flex flex-col gap-1">
           <div className="flex items-center gap-1.5 text-xs text-neutral-400 font-medium">
             <svg className="w-3.5 h-3.5 text-neutral-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -67,7 +62,6 @@ function Profile({
           <div className="text-2xl font-bold text-neutral-100">{bookmarks.length}</div>
         </div>
 
-        {/* Likes Stat */}
         <div className="p-4 bg-neutral-900 border border-neutral-800 rounded-2xl shadow-sm flex flex-col gap-1">
           <div className="flex items-center gap-1.5 text-xs text-neutral-400 font-medium">
             <svg className="w-3.5 h-3.5 text-neutral-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -78,7 +72,6 @@ function Profile({
           <div className="text-2xl font-bold text-neutral-100">{likes.length}</div>
         </div>
 
-        {/* Searches Stat */}
         <div className="p-4 bg-neutral-900 border border-neutral-800 rounded-2xl shadow-sm flex flex-col gap-1">
           <div className="flex items-center gap-1.5 text-xs text-neutral-400 font-medium">
             <svg className="w-3.5 h-3.5 text-neutral-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -90,9 +83,8 @@ function Profile({
         </div>
       </div>
 
-      {/* Flexible Scrollable List Cards Container */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Bookmarked Diseases */}
+        
         <div className="p-5 bg-neutral-900 border border-neutral-800 rounded-2xl shadow-sm flex flex-col gap-4">
           <div className="flex items-center gap-2 pb-2 border-b border-neutral-800 text-sm font-semibold text-neutral-300">
             <svg className="w-4 h-4 text-neutral-450" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -116,7 +108,6 @@ function Profile({
           </div>
         </div>
 
-        {/* Your Likes */}
         <div className="p-5 bg-neutral-900 border border-neutral-800 rounded-2xl shadow-sm flex flex-col gap-4">
           <div className="flex items-center gap-2 pb-2 border-b border-neutral-800 text-sm font-semibold text-neutral-300">
             <svg className="w-4 h-4 text-neutral-450" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -140,7 +131,6 @@ function Profile({
           </div>
         </div>
 
-        {/* Search History */}
         <div className="p-5 bg-neutral-900 border border-neutral-800 rounded-2xl shadow-sm flex flex-col gap-4">
           <div className="flex items-center gap-2 pb-2 border-b border-neutral-800 text-sm font-semibold text-neutral-300">
             <svg className="w-4 h-4 text-neutral-450" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">

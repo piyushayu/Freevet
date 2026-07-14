@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateProfileData } from '@/services/profileSlice';
-
-const DEMO_API_URL = "https://jsonplaceholder.typicode.com/posts";
+import { updateProfile } from '@/lib/database';
 
 function SuccessToast({ visible }) {
   return (
     <div
-      className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-2 px-5 py-3 bg-violet-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-600/30 transition-all duration-500 ${
+      className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-100 flex items-center gap-2 px-5 py-3 bg-violet-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-600/30 transition-all duration-500 ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
       }`}
     >
@@ -19,55 +16,49 @@ function SuccessToast({ visible }) {
   );
 }
 
-function EditProfile({ edit, cancelfunctn }) {
-  const currentUser = useSelector((state) => state.profile) || {};
-  const dispatch = useDispatch();
-
-  const [name, setName] = useState(currentUser.name || "");
-  const [location, setLocation] = useState(currentUser.location || "");
-  const [memberSince, setMemberSince] = useState(currentUser.memberSince || "");
+function EditProfile({ edit, cancelfunctn, onSaveSuccess, userId, currentProfile }) {
+  const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
+  const [memberSince, setMemberSince] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
 
+  // Sync form fields with currentProfile whenever the modal opens
   useEffect(() => {
-    if (edit) {
-      setName(currentUser.name || "");
-      setLocation(currentUser.location || "");
-      setMemberSince(currentUser.memberSince || "");
+    if (edit && currentProfile) {
+      setName(currentProfile.name || "");
+      setLocation(currentProfile.location || "");
+      setMemberSince(currentProfile.member_since || "");
       setError(null);
     }
-  }, [edit]);
+  }, [edit, currentProfile]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    const payload = { name, location, memberSince };
+    // ── Supabase UPDATE call ──
+    const { data, error: updateError } = await updateProfile(userId, {
+      name,
+      location,
+      memberSince,
+    });
 
-    try {
-      const response = await fetch(DEMO_API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const success = response.ok;
-
-      if (success) {
-        dispatch(updateProfileData(payload));
-        cancelfunctn();
-        setShowSuccess(true);
-        setTimeout(() => setShowSuccess(false), 2000);
-      } else {
-        setError("Failed to save changes. Please try again.");
-      }
-    } catch (err) {
-      setError("Network error. Please check your connection.");
-    } finally {
+    if (updateError) {
+      setError("Failed to save changes. " + updateError.message);
       setLoading(false);
+      return;
     }
+
+    // Success — close modal and show toast
+    setLoading(false);
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 2000);
+
+    // Notify parent to refresh profile data
+    if (onSaveSuccess) onSaveSuccess();
   };
 
   if (!edit && !showSuccess) return <SuccessToast visible={false} />;
@@ -98,7 +89,6 @@ function EditProfile({ edit, cancelfunctn }) {
                 />
               </div>
 
-              
               <div className="flex flex-col gap-2">
                 <label htmlFor="profile-location" className="text-sm font-medium text-neutral-400">
                   Location
@@ -113,7 +103,6 @@ function EditProfile({ edit, cancelfunctn }) {
                 />
               </div>
 
-              
               <div className="flex flex-col gap-2">
                 <label htmlFor="profile-member" className="text-sm font-medium text-neutral-400">
                   Member Since
@@ -128,10 +117,8 @@ function EditProfile({ edit, cancelfunctn }) {
                 />
               </div>
 
-             
               {error && <p className="text-sm text-red-400">{error}</p>}
 
-             
               <div className="flex items-center justify-end gap-3 mt-4">
                 <button
                   type="button"
