@@ -26,8 +26,8 @@ import { Link } from "react-router-dom"
         <CardTitle>{Name}</CardTitle>
         <CardDescription>
          {
-            Info.map((point) => (
-                <li key={point.id}>{point.text}</li>
+            Info.map((point, i) => (
+                <li key={i}>{point}</li>
             ))
          }
         </CardDescription>
