@@ -25,7 +25,7 @@ function MainBody() {
     setLoading(false);
 
     if (diseaseResult.data) {
-      storequery(null, searchQuery);
+      storequery(searchQuery);
       const animalName = diseaseResult.data.animals?.name;
       const diseaseName = diseaseResult.data.name;
 
@@ -36,7 +36,7 @@ function MainBody() {
       navigate(`/diseases/${encodeURIComponent(animalName)}/explain/${encodeURIComponent(diseaseName)}`);
 
     } else if (animalResult.data) {
-      storequery(null, searchQuery);
+      storequery(searchQuery);
       const animalName = animalResult.data.name;
       navigate(`/diseases/${encodeURIComponent(animalName)}`);
 

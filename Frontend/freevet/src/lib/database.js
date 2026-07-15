@@ -78,6 +78,7 @@ export async function getDiseaseByName(diseaseName) {
     .select(`
       *,
       medicines ( * ),
+      animals ( name )
     `)
     .ilike('name', diseaseName)
     .single()
@@ -99,11 +100,13 @@ export async function searchDiseases(query) {
 }
 //
 
-export async function storequery(userId, query) {
+export async function storequery(query) {
+  const { data: { user } } = await supabase.auth.getUser()
+
   const { error } = await supabase
     .from('searches')
     .insert({
-      user_id: userId || null,
+      user_id: user?.id || null,
       query: query
     })
 
