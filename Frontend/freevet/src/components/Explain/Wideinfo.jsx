@@ -1,15 +1,38 @@
 import React from 'react'
 import Button from '../Button'
 import ReactLogo from "../../assets/react.svg"
+import { addBookmark, addLike } from '@/lib/database'
+import { useSelector } from 'react-redux'
 
 function Wideinfo({
     name,
+    diseaseid,
     context,
     overview = [],
     symptoms = [],
     medicine = [],
     treatment = []
 }) {
+
+  const user = useSelector((state) => state.auth.userData)
+  const userId = user.id
+
+  async function onlike (){ 
+    const {error} = await addLike(userId , diseaseid)
+
+    if(error){
+     return error
+    }
+  }
+
+  async function onbookmark (){ 
+  const {error} = await addBookmark(userId , diseaseid)
+
+    if(error){
+     return error
+    }
+  }
+
   return (
     <div className='flex flex-col gap-6 w-full max-w-3xl mx-auto bg-neutral-900/50 p-6 rounded-2xl border border-neutral-800'>
       
@@ -26,8 +49,8 @@ function Wideinfo({
         </div>
         
         <div className='flex gap-3'>
-          <Button className='h-9  bg-neutral-700' icon={ReactLogo}  children={"Like"}/>
-          <Button className='h-9  bg-neutral-700' icon={ReactLogo} children={"Save"}/>
+          <Button className='h-9  bg-neutral-700' icon={ReactLogo} Clickfunctn={onlike}  children={"Like"}/>
+          <Button className='h-9  bg-neutral-700' icon={ReactLogo}  Clickfunctn={onbookmark} children={"bookmark"} />
         </div>
       </div>
 

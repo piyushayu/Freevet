@@ -11,7 +11,7 @@ function Site() {
   useEffect(() => {
     const subscription = onAuthChange((event, session) => {
       if (session) {
-        dispatch(login({ userData: { email: session.user.email } }))
+        dispatch(login({ userData: { email: session.user.email , id : session.user.id } }))
       } else {
         dispatch(logout())
       }

@@ -50,7 +50,7 @@ function Signupform() {
       if (error) {
         setError(error.message)
       } else {
-        dispatch(signup({ userData: { email } }))
+        dispatch(signup({ userData: { email , id: data.user.id } }))
         navigate("/profile")
       }
     } catch (err) {

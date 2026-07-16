@@ -37,6 +37,7 @@ function Explain() {
     <div className="w-full flex flex-col gap-6">
       <Wideinfo 
         name={disease.name}
+        diseaseid={disease.id}
         context={disease?.context}
         overview={disease?.overview || []}
         symptoms={disease?.symptoms || []}

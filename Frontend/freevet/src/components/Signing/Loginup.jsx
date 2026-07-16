@@ -47,7 +47,7 @@ function Loginform() {
       if (error) {
         setError(error.message)
       } else {
-        dispatch(login({ userData: { email } }))
+        dispatch(login({ userData: { email , id : data.user.id } }))
         navigate("/profile")
       }
     } catch (err) {
