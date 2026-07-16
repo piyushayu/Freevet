@@ -86,7 +86,7 @@ export async function getDiseasesWithSymptomsByAnimal(animalName) {
 }
 
 export async function getDiseaseByName(diseaseName, animalName) {
-  const { data, error } = await supabase
+  let query = supabase
     .from('diseases')
     .select(`
       *,
@@ -94,8 +94,12 @@ export async function getDiseaseByName(diseaseName, animalName) {
       animals!inner ( name )
     `)
     .ilike('name', diseaseName)
-    .ilike('animals.name', animalName)
-    .single()
+
+  if (animalName) {
+    query = query.ilike('animals.name', animalName)
+  }
+
+  const { data, error } = await query.single()
 
   return { data, error }
 }
@@ -161,7 +165,6 @@ export async function getUserBookmarks(userId) {
   return { data, error }
 }
 
-
 export async function addLike(userId, diseaseId) {
   const { data, error } = await supabase
     .from('likes')
@@ -221,6 +224,16 @@ export async function clearSearchHistory(userId) {
 
   return { error }
 }
+
+export async function deleteSearch(searchId) {
+  const { error } = await supabase
+    .from('searches')
+    .delete()
+    .eq('id', searchId)
+
+  return { error }
+}
+
 
 
 export async function submitFeedback({ name, email, feedbackType, message, userId }) {

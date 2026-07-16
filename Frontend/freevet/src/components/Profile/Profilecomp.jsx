@@ -2,7 +2,15 @@ import React, { useState, useEffect } from 'react'
 import Profile from './Profile'
 import EditProfile from './EditProfile'
 import { getCurrentUser } from '@/lib/auth'
-import { getProfile, getUserBookmarks, getUserLikes, getUserSearches } from '@/lib/database'
+import { 
+  getProfile, 
+  getUserBookmarks, 
+  getUserLikes, 
+  getUserSearches,
+  removeBookmark,
+  removeLike,
+  deleteSearch
+} from '@/lib/database'
 
 function Profilecomp() {
   const [isedit, setIsedit] = useState(false)
@@ -34,9 +42,26 @@ function Profilecomp() {
       ])
 
       if (profileRes.data) setProfileData(profileRes.data)
-      if (bookmarksRes.data) setBookmarks(bookmarksRes.data.map((b) => b.diseases?.name || 'Unknown'))
-      if (likesRes.data) setLikes(likesRes.data.map((l) => l.diseases?.name || 'Unknown'))
-      if (searchesRes.data) setSearches(searchesRes.data.map((s) => s.query))
+      if (bookmarksRes.data) {
+        setBookmarks(bookmarksRes.data.map((e) => ({
+          id: e.id,
+          diseaseId: e.disease_id,
+          name: e.diseases?.name || 'Unknown'
+        })))
+      }
+      if (likesRes.data) {
+        setLikes(likesRes.data.map((e) => ({
+          id: e.id,
+          diseaseId: e.disease_id,
+          name: e.diseases?.name || 'Unknown'
+        })))
+      }
+      if (searchesRes.data) {
+        setSearches(searchesRes.data.map((e) => ({
+          id: e.id,
+          query: e.query
+        })))
+      }
 
       setLoading(false)
     }
@@ -48,6 +73,29 @@ function Profilecomp() {
     if (!userId) return
     const { data } = await getProfile(userId)
     if (data) setProfileData(data)
+  }
+
+  async function handleDeleteBookmark(diseaseId) {
+    if (!userId) return
+    const { error } = await removeBookmark(userId, diseaseId)
+    if (!error) {
+      setBookmarks((prev) => prev.filter((b) => b.diseaseId !== diseaseId))
+    }
+  }
+
+  async function handleDeleteLike(diseaseId) {
+    if (!userId) return
+    const { error } = await removeLike(userId, diseaseId)
+    if (!error) {
+      setLikes((prev) => prev.filter((l) => l.diseaseId !== diseaseId))
+    }
+  }
+
+  async function handleDeleteSearch(searchId) {
+    const { error } = await deleteSearch(searchId)
+    if (!error) {
+      setSearches((prev) => prev.filter((s) => s.id !== searchId))
+    }
   }
 
   function onEditClick() {
@@ -87,6 +135,9 @@ function Profilecomp() {
         bookmarks={bookmarks}
         likes={likes}
         searches={searches}
+        onDeleteBookmark={handleDeleteBookmark}
+        onDeleteLike={handleDeleteLike}
+        onDeleteSearch={handleDeleteSearch}
       />
       <EditProfile
         edit={isedit}

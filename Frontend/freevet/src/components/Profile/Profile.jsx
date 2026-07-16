@@ -1,4 +1,5 @@
 import React from 'react';
+import { Trash2 } from 'lucide-react';
 
 function Profile({
   bookmarks = [],
@@ -6,6 +7,9 @@ function Profile({
   searches = [],
   editfunctn,
   profileData,
+  onDeleteBookmark,
+  onDeleteLike,
+  onDeleteSearch,
 }) {
   const user = profileData || {};
 
@@ -97,9 +101,15 @@ function Profile({
               bookmarks.map((disease, index) => (
                 <div
                   key={index}
-                  className="px-3 py-2 bg-neutral-800/60 border border-neutral-850 hover:bg-neutral-800 text-sm text-neutral-250 rounded-lg transition"
+                  className="px-3 py-2 bg-neutral-800/60 border border-neutral-850 hover:bg-neutral-800 text-sm text-neutral-250 rounded-lg transition flex items-center justify-between group"
                 >
-                  {disease}
+                  <span>{disease.name}</span>
+                  <button
+                    onClick={() => onDeleteBookmark(disease.diseaseId)}
+                    className="text-neutral-500 hover:text-red-500 p-1 rounded-md transition opacity-0 group-hover:opacity-100 focus:opacity-100 cursor-pointer"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               ))
             ) : (
@@ -120,9 +130,15 @@ function Profile({
               likes.map((like, index) => (
                 <div
                   key={index}
-                  className="px-3 py-2 bg-neutral-800/60 border border-neutral-850 hover:bg-neutral-800 text-sm text-neutral-250 rounded-lg transition"
+                  className="px-3 py-2 bg-neutral-800/60 border border-neutral-850 hover:bg-neutral-800 text-sm text-neutral-250 rounded-lg transition flex items-center justify-between group"
                 >
-                  {like}
+                  <span>{like.name}</span>
+                  <button
+                    onClick={() => onDeleteLike(like.diseaseId)}
+                    className="text-neutral-500 hover:text-red-500 p-1 rounded-md transition opacity-0 group-hover:opacity-100 focus:opacity-100 cursor-pointer"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               ))
             ) : (
@@ -143,9 +159,15 @@ function Profile({
               searches.map((search, index) => (
                 <div
                   key={index}
-                  className="px-3 py-2 bg-neutral-800/60 border border-neutral-850 hover:bg-neutral-800 text-sm text-neutral-250 rounded-lg transition"
+                  className="px-3 py-2 bg-neutral-800/60 border border-neutral-850 hover:bg-neutral-800 text-sm text-neutral-250 rounded-lg transition flex items-center justify-between group"
                 >
-                  {search}
+                  <span>{search.query}</span>
+                  <button
+                    onClick={() => onDeleteSearch(search.id)}
+                    className="text-neutral-500 hover:text-red-500 p-1 rounded-md transition opacity-0 group-hover:opacity-100 focus:opacity-100 cursor-pointer"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               ))
             ) : (
