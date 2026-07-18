@@ -19,6 +19,7 @@
     "clsx": "^2.1.1",
     "html-react-parser": "^6.1.4",
     "lucide-react": "^1.23.0",
+    "motion": "^12.42.2",
     "nanoid": "^5.1.16",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

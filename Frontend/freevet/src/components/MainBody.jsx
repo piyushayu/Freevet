@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import Button from './Button';
 import { ArrowRightIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { getDiseaseByName, getAnimalByName, storequery } from '@/lib/database';
-
+import { HoverBorderGradient } from './ui/hover-border-gradient';
+import { Search } from 'lucide-react';
+import { TextGenerateEffect } from './ui/text-generate-effect';
 
 function MainBody() {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate()
+
+  const words = ` Freevet provides rapid, intelligent insights for your pets and livestock.Instantly diagnose symptoms, learn about potential diseases`
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -46,12 +49,12 @@ function MainBody() {
   };
 
   return (
-    <main className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 ">
+    <main className="w-full grid grid-cols-1 mt-4 lg:grid-cols-12 gap-8 ">
       
-      <div className="lg:col-span-5 flex flex-col gap-6 justify-between">
+      <div className="lg:col-span-5 flex flex-col gap-9 justify-between">
         
         {/* Moto Card */}
-        <div className="flex-1 p-8 rounded-2xl bg-neutral-900/40 border border-white/10 backdrop-blur-md shadow-xl flex flex-col justify-center text-left hover:border-violet-500/30 transition-all duration-300">
+        <div className="flex-1 flex flex-col gap-3 justify-center text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-semibold mb-4 w-fit">
             🐾 Virtual Pet Consultation
           </div>
@@ -63,37 +66,14 @@ function MainBody() {
             and Consultation
           </h1>
         </div>
-
-        {/* Info Card */}
-        <div className="p-8 rounded-2xl bg-neutral-900/30 border border-white/10 backdrop-blur-md shadow-lg text-left flex flex-col justify-center hover:border-indigo-500/30 transition-all duration-300">
-          <p className="text-neutral-400 text-base leading-relaxed">
-            Freevet provides rapid, intelligent insights for your pets and livestock. 
-            Instantly diagnose symptoms, learn about potential diseases, find nearby 
-            vet clinics, and maintain comprehensive profile histories for all your animal friends.
-          </p>
-        </div>
-
-        {/* Search Row */}
+        <TextGenerateEffect words={words} />
         <div className="flex flex-col gap-2">
           <form 
             onSubmit={handleSearch}
-            className="flex items-center gap-3 p-2 bg-neutral-900/50 border border-white/10 rounded-2xl shadow-md focus-within:border-violet-500/50 transition-all duration-300"
+            className="flex items-center gap-3 p-2 bg-neutral-900/40 border border-white/10 rounded-2xl shadow-md focus-within:border-violet-500/50 transition-all duration-300 backdrop-blur-md"
           >
             <div className="flex-1 flex items-center pl-3 gap-2">
-              <svg
-                className="w-5 h-5 text-neutral-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
+             <Search className="text-neutral-400 w-5 h-5" />
               <input
                 type="text"
                 value={searchQuery}
@@ -102,16 +82,16 @@ function MainBody() {
                 className="w-full bg-transparent border-none text-white text-sm focus:outline-none placeholder-neutral-500"
               />
             </div>
-            <Button
+            <HoverBorderGradient
+              containerClassName="rounded-full"
+              as="button"
               type="submit"
-              variant="primary"
-              className='flex flex-row items-center gap-5'
+              className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2"
             >
-              Start Search
-              <ArrowRightIcon/>
-            </Button>
+              <span>Search</span>
+              <ArrowRightIcon className="w-4 h-4" />
+            </HoverBorderGradient>
           </form>
-
           {error && (
             <div
               role="alert"
@@ -165,3 +145,21 @@ function MainBody() {
 }
 
 export default MainBody;
+
+    // <Button
+    //           type="submit"
+    //           variant="primary"
+    //           className='flex flex-row items-center gap-5'
+    //         >
+    //           Start Search
+    //           <ArrowRightIcon/>
+    //         </Button>
+
+
+      //  <div className="p-8 rounded-2xl bg-neutral-900/30 border border-white/10 backdrop-blur-md shadow-lg text-left flex flex-col justify-center hover:border-indigo-500/30 transition-all duration-300">
+      //     <p className="text-neutral-400 text-base leading-relaxed">
+      //       Freevet provides rapid, intelligent insights for your pets and livestock. 
+      //       Instantly diagnose symptoms, learn about potential diseases, find nearby 
+      //       vet clinics, and maintain comprehensive profile histories for all your animal friends.
+      //     </p>
+      //   </div>
