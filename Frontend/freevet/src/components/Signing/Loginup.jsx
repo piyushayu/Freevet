@@ -11,19 +11,22 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-import ReactLogo from "../../assets/react.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "@/services/Slice";
 
-import { loginUser } from "@/lib/auth";
+import { loginUser, signInWithGoogle, sendPasswordResetEmail } from "@/lib/auth";
 
 function Loginimage() {
   return (
-    <div className=" hidden md:flex  items-center justify-center bg-purple-500 h-full">
-        <img src={ReactLogo} className="h-20 w-20 object-contain" alt="React logo" />
-      </div>
+    <div className="hidden md:block h-full w-full">
+      <img 
+        src="https://eczkxdnpwbohewsyikux.supabase.co/storage/v1/object/public/Images/Screenshot%20(2352).png" 
+        className="h-full w-full object-cover" 
+        alt="Login background" 
+      />
+    </div>
   )
 }
 
@@ -35,6 +38,44 @@ function Loginform() {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  const [isResetMode, setIsResetMode] = useState(false)
+  const [successMessage, setSuccessMessage] = useState(null)
+
+  const handleResetRequest = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
+    setSuccessMessage(null)
+
+    try {
+      const { error } = await sendPasswordResetEmail(email)
+      if (error) {
+        setError(error.message)
+      } else {
+        setSuccessMessage("Password reset link has been sent to your email!")
+      }
+    } catch (err) {
+      setError("An unexpected error occurred. Please try again.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleGoogleLogin = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const { error } = await signInWithGoogle()
+      if (error) {
+        setError(error.message)
+      }
+    } catch (err) {
+      setError("An unexpected error occurred during Google sign in.")
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -55,6 +96,61 @@ function Loginform() {
     } finally {
       setLoading(false)
     }
+  }
+
+  if (isResetMode) {
+    return (
+      <Card className="w-full border-none shadow-none bg-transparent p-6 md:p-8 flex flex-col justify-center">
+        <CardHeader className="p-0 mb-6">
+          <CardTitle className="text-2xl font-semibold tracking-tight">Reset your password</CardTitle>
+          <CardDescription className="text-muted-foreground mt-1">
+            Enter your email below to receive a password reset link
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-0">
+          <form onSubmit={handleResetRequest}>
+            <div className="flex flex-col gap-7">
+              <div className="grid gap-2">
+                <Label htmlFor="reset-email">Email</Label>
+                <Input
+                  id="reset-email"
+                  type="email"
+                  placeholder="m@example.com"
+                  required
+                  className="h-10"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              {error && (
+                <p className="text-sm text-red-500">{error}</p>
+              )}
+              {successMessage && (
+                <p className="text-sm text-emerald-500 font-medium">{successMessage}</p>
+              )}
+            </div>
+
+            <div className="mt-6 flex flex-col gap-3">
+              <Button type="submit" className="w-full h-10 font-medium" disabled={loading}>
+                {loading ? "Sending..." : "Send Reset Link"}
+              </Button>
+              <Button
+                type="button"
+                variant="link"
+                className="text-muted-foreground hover:text-white text-xs underline-offset-4 hover:underline"
+                onClick={() => {
+                  setIsResetMode(false)
+                  setError(null)
+                  setSuccessMessage(null)
+                }}
+              >
+                Back to Login
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    )
   }
 
   return (
@@ -83,12 +179,17 @@ function Loginform() {
             <div className="grid gap-2">
               <div className="flex items-center">
                 <Label htmlFor="login-password">Password</Label>
-                <a
-                  href="#"
-                  className="ml-auto inline-block text-xs text-muted-foreground underline-offset-4 hover:underline "
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsResetMode(true)
+                    setError(null)
+                    setSuccessMessage(null)
+                  }}
+                  className="ml-auto inline-block text-xs text-muted-foreground underline-offset-4 hover:underline cursor-pointer bg-transparent border-none p-0"
                 >
                   Forgot your password?
-                </a>
+                </button>
               </div>
               <Input
                 id="login-password"
@@ -113,6 +214,8 @@ function Loginform() {
               type="button"
               variant="outline"
               className="w-full h-10 font-medium flex items-center justify-center gap-2"
+              onClick={handleGoogleLogin}
+              disabled={loading}
             >
               Login with Google
             </Button>

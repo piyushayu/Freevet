@@ -11,22 +11,25 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-import ReactLogo from "../../assets/react.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { signup } from "@/services/Slice";
 
 
-import { signUpUser } from "@/lib/auth";
+import { signUpUser, signInWithGoogle } from "@/lib/auth";
 
 const DEMO_API_URL = "https://jsonplaceholder.typicode.com/posts";
 
 function Signimage() {
   return (
-    <div className=" hidden md:flex  items-center justify-center bg-purple-500 h-full">
-        <img src={ReactLogo} className="h-20 w-20 object-contain" alt="React logo" />
-      </div>
+    <div className="hidden md:block h-full w-full">
+      <img 
+        src="https://eczkxdnpwbohewsyikux.supabase.co/storage/v1/object/public/Images/Screenshot%20(2352).png" 
+        className="h-full w-full object-cover" 
+        alt="Signup background" 
+      />
+    </div>
   )
 }
 
@@ -38,6 +41,21 @@ function Signupform() {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  const handleGoogleSignup = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const { error } = await signInWithGoogle()
+      if (error) {
+        setError(error.message)
+      }
+    } catch (err) {
+      setError("An unexpected error occurred during Google sign up.")
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -108,6 +126,8 @@ function Signupform() {
               type="button"
               variant="outline"
               className="w-full h-10 font-medium flex items-center justify-center gap-2"
+              onClick={handleGoogleSignup}
+              disabled={loading}
             >
               Signup with Google
             </Button>
