@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { updateProfile } from '@/lib/database';
 import { uploadToSupabase } from '../../../utils/Filestore';
+import { User } from 'lucide-react';
 
 function SuccessToast({ visible }) {
   return (
     <div
-      className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-100 flex items-center gap-2 px-5 py-3 bg-violet-600 text-white text-sm font-medium rounded-xl shadow-lg shadow-violet-600/30 transition-all duration-500 ${
+      className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-100 flex items-center gap-2 px-5 py-3 bg-neutral-800 border border-neutral-700 text-white text-sm font-medium rounded-xl shadow-lg shadow-neutral-950/30 transition-all duration-500 ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
       }`}
     >
@@ -81,14 +82,6 @@ function EditProfile({ edit, cancelfunctn, onSaveSuccess, userId, currentProfile
 
   if (!edit && !showSuccess) return <SuccessToast visible={false} />;
 
-  const getInitials = () => {
-    if (!name) return 'U';
-    return name
-      .trim()
-      .split(/\s+/)
-      .join('')
-      .toUpperCase();
-  };
 
   return (
     <>
@@ -107,11 +100,11 @@ function EditProfile({ edit, cancelfunctn, onSaveSuccess, userId, currentProfile
                   {avatarUrl ? (
                     <img src={avatarUrl} alt="Preview" className="w-full h-full object-cover" />
                   ) : (
-                    getInitials()
+                    <User className="w-8 h-8" />
                   )}
                 </div>
                 <div className="flex flex-col gap-1.5 text-left">
-                  <span className="text-sm font-medium text-neutral-400">Profile Picture</span>
+                  <span className="text-sm font-medium text-neutral-200">Profile Picture</span>
                   <label className="cursor-pointer bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 hover:border-neutral-600 text-neutral-200 text-xs font-semibold px-4 py-2 rounded-lg transition active:scale-95 text-center select-none">
                     {uploading ? "Uploading..." : "Upload New Photo"}
                     <input
@@ -126,13 +119,13 @@ function EditProfile({ edit, cancelfunctn, onSaveSuccess, userId, currentProfile
               </div>
 
               <div className="flex flex-col gap-2">
-                <label htmlFor="profile-name" className="text-sm font-medium text-neutral-400">
+                <label htmlFor="profile-name" className="text-sm font-medium text-neutral-200">
                   Full Name
                 </label>
                 <input
                   id="profile-name"
                   type="text"
-                  className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-2.5 text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition"
+                  className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-2.5 text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:border-transparent transition"
                   placeholder="e.g. Rajan Kumar"
                   required
                   value={name}
@@ -141,13 +134,13 @@ function EditProfile({ edit, cancelfunctn, onSaveSuccess, userId, currentProfile
               </div>
 
               <div className="flex flex-col gap-2">
-                <label htmlFor="profile-location" className="text-sm font-medium text-neutral-400">
+                <label htmlFor="profile-location" className="text-sm font-medium text-neutral-200">
                   Location
                 </label>
                 <input
                   id="profile-location"
                   type="text"
-                  className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-2.5 text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition"
+                  className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-2.5 text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:border-transparent transition"
                   placeholder="e.g. Mumbai, MH"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
@@ -155,13 +148,13 @@ function EditProfile({ edit, cancelfunctn, onSaveSuccess, userId, currentProfile
               </div>
 
               <div className="flex flex-col gap-2">
-                <label htmlFor="profile-member" className="text-sm font-medium text-neutral-400">
+                <label htmlFor="profile-member" className="text-sm font-medium text-neutral-200">
                   Member Since
                 </label>
                 <input
                   id="profile-member"
                   type="text"
-                  className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-2.5 text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition"
+                  className="w-full bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-2.5 text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:border-transparent transition"
                   placeholder="e.g. June 2024"
                   value={memberSince}
                   onChange={(e) => setMemberSince(e.target.value)}
@@ -181,7 +174,7 @@ function EditProfile({ edit, cancelfunctn, onSaveSuccess, userId, currentProfile
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-5 py-2.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white font-medium shadow-md shadow-violet-600/10 transition active:scale-95 cursor-pointer disabled:opacity-50"
+                  className="px-5 py-2.5 rounded-lg bg-neutral-700 hover:bg-neutral-600 text-white font-medium shadow-md shadow-neutral-700/10 transition active:scale-95 cursor-pointer disabled:opacity-50"
                 >
                   {loading ? "Saving..." : "Save Changes"}
                 </button>

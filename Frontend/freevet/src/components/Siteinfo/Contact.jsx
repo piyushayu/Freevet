@@ -88,7 +88,7 @@ function Contact({open , closefunction}) {
                     type="text"
                     name="name"
                     placeholder="Your name"
-                    className="bg-neutral-950/60 border border-neutral-850 focus:border-violet-500/60 focus:ring-1 focus:ring-violet-500/30 rounded-xl px-4 py-2.5 outline-none text-neutral-200 text-sm transition-all"
+                    className="bg-neutral-950/60 border border-neutral-850 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500/30 rounded-xl px-4 py-2.5 outline-none text-neutral-200 text-sm transition-all"
                   />
                 </div>
    
@@ -100,7 +100,7 @@ function Contact({open , closefunction}) {
                     type="email"
                     name="email"
                     placeholder="your.email@example.com"
-                    className="bg-neutral-950/60 border border-neutral-850 focus:border-violet-500/60 focus:ring-1 focus:ring-violet-500/30 rounded-xl px-4 py-2.5 outline-none text-neutral-200 text-sm transition-all"
+                    className="bg-neutral-950/60 border border-neutral-850 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500/30 rounded-xl px-4 py-2.5 outline-none text-neutral-200 text-sm transition-all"
                   />
                 </div>
    
@@ -114,7 +114,7 @@ function Contact({open , closefunction}) {
                         onClick={() => setFeedback(option.label)}
                         className={`px-3 py-2.5 rounded-xl border text-xs font-medium transition-all cursor-pointer text-center ${
                           feedback === option.label
-                            ? 'bg-violet-600 border-violet-500 text-white shadow-md shadow-violet-900/20'
+                            ? 'bg-neutral-950/60 border-emerald-500 text-emerald-400 shadow-md shadow-emerald-500/5'
                             : 'bg-neutral-950/60 border-neutral-850 text-neutral-400 hover:text-neutral-200 hover:border-neutral-755'
                         }`}
                       >
@@ -133,13 +133,13 @@ function Contact({open , closefunction}) {
                     required
                     rows={4}
                     placeholder="Describe your suggestion here..."
-                    className="bg-neutral-950/60 border border-neutral-850 focus:border-violet-500/60 focus:ring-1 focus:ring-violet-500/30 rounded-xl px-4 py-2.5 outline-none text-neutral-200 text-sm resize-none transition-all"
+                    className="bg-neutral-950/60 border border-neutral-850 focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500/30 rounded-xl px-4 py-2.5 outline-none text-neutral-200 text-sm resize-none transition-all"
                   />
                 </div>
    
                 <button
                   type="submit"
-                  className="mt-2 w-full py-3 bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-xl text-sm transition-all flex items-center justify-center gap-2 active:scale-98 cursor-pointer shadow-md"
+                  className="mt-2 w-full py-3 bg-neutral-700 hover:bg-neutral-600 text-white font-semibold rounded-xl text-sm transition-all flex items-center justify-center gap-2 active:scale-98 cursor-pointer shadow-md"
                 >
                   <Send className="w-4 h-4" />
                   <span>Send Suggestion</span>
