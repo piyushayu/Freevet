@@ -16,7 +16,7 @@ import { Link } from "react-router-dom"
   ImageUrl,
  }) {
   return (
-    <Card className="relative mx-auto w-full max-w-sm rounded-xl overflow-hidden h-[500px] border-none group">
+    <Card className="relative mx-auto w-full max-w-85 rounded-xl overflow-hidden h-125 border-none group">
       {/* Image fills entire card */}
       <img
         src={ImageUrl}

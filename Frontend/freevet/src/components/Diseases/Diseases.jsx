@@ -30,7 +30,7 @@ function Diseases() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[200px]">
+      <div className="flex justify-center items-center min-h-50">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-500"></div>
       </div>
     );
@@ -40,7 +40,7 @@ function Diseases() {
     <div className='flex flex-col gap-5 justify-center '>
       <div className='flex flex-row flex-wrap justify-center gap-6 w-full'>
         {animalsList.map((animal) => (
-          <div key={animal.name} className='w-full max-w-sm flex flex-col'>
+          <div key={animal.name} className='w-full max-w-85 flex flex-col'>
             <Animalcard 
               Name={animal.name} 
               Info={animal.info || animal.Info} 
@@ -49,7 +49,7 @@ function Diseases() {
             />
           </div>
         ))}
-    </div>
+      </div>
     </div>
   )
 }

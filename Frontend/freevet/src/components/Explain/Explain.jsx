@@ -6,7 +6,7 @@ import { getDiseaseByName } from '@/lib/database'
 
 function Explain() {
 
-  const { diseasename, animaltype } = useParams()
+  const { diseaseid, animaltype } = useParams()
   const [disease, setDisease] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -16,7 +16,7 @@ function Explain() {
   setLoading(true)
 
   async function Particulardisease() {
-    const {data} = await getDiseaseByName(diseasename, animaltype)
+    const {data} = await getDiseaseByName(diseaseid, animaltype)
     if(data){
       setDisease(data)
     } else {
@@ -27,7 +27,7 @@ function Explain() {
 
   Particulardisease()
 
-  }, [diseasename])
+  }, [diseaseid, animaltype])
 
    if (loading) return <div>Loading...</div>
    if (error)   return <div>{error}</div>
@@ -43,6 +43,7 @@ function Explain() {
         symptoms={disease?.symptoms || []}
         medicine={disease?.medicines || []}
         treatment={disease?.treatment || []}
+        reference={disease?.Reference || disease?.reference}
       />
     </div>
   )

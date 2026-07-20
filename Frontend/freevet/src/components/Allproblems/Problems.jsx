@@ -1,44 +1,41 @@
-import React from 'react'
+import React, { useState, useEffect, useId } from 'react'
 import Diseasecard from './Diseasecard'
-import { useState } from 'react'
-import { useEffect , useId} from 'react'
 import Page from '../Diseases/page'
-import { MdWarning } from 'react-icons/md'
 import { useOutlet, useParams } from 'react-router-dom'
 import { getDiseasesByAnimal } from '@/lib/database'
 
-
 function Problems() {
-
   const outlet = useOutlet()
   const { animaltype } = useParams()          
   const [problems, setProblems] = useState([])
   const [loading, setLoading] = useState(true)
-  const [warn, setWarn] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
   const id = useId()
+
+  const LIMIT = 5
+
+  // Reset page to 1 when changing animal type
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [animaltype])
 
   useEffect(() => {
     async function fetchDiseases() {
-      const { data, error } = await getDiseasesByAnimal(animaltype)
+      setLoading(true)
+      const { data, error, count } = await getDiseasesByAnimal(animaltype, currentPage, LIMIT)
       if (data) {
         setProblems(data)
+        if (count !== null && count !== undefined) {
+          setTotalPages(Math.ceil(count / LIMIT) || 1)
+        }
       } else {
         console.error("Error fetching diseases:", error)
       }
       setLoading(false)
     }
     fetchDiseases()
-
-    const seen = localStorage.getItem("disclaimer")
-    if (!seen) {
-      setWarn(true)
-      setTimeout(() => {
-        setWarn(false)
-        localStorage.setItem("disclaimer", "true")
-      }, 4000)
-    }
-  }, [animaltype]) 
-
+  }, [animaltype, currentPage]) 
 
   if (outlet) {
     return outlet
@@ -46,42 +43,36 @@ function Problems() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[200px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-500"></div>
+      <div className="flex justify-center items-center min-h-75">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
       </div>
     )
   }
 
   return (
-    <div className='flex flex-col gap-5 justify-center '>
-      <div className='flex flex-row flex-wrap justify-center gap-6 w-full'>
+    <div className='flex flex-col gap-6 justify-center max-w-7xl mx-auto px-4 py-6'>
+      <div className='flex flex-row flex-wrap justify-center gap-6 w-full min-h-100'>
         {problems.map((problem) => (
-          <div key={problem.name} className='w-full max-w-sm flex justify-center'>
+          <div key={problem.id || problem.name} className='w-full max-w-85 flex justify-center'>
             <Diseasecard
               Name={problem.name}
+              context={problem.context}
               Info={problem.symptoms || []}
               id={id}
             />
           </div>
         ))}
       </div>
-      <div className='relative flex justify-center items-center w-full px-5'>
-        <Page/>
-        <div className='absolute right-4 flex flex-col items-end '>
-          {warn && <div className='h-25 w-70 bg-gray-600 text-black overflow-hidden p-2 rounded shadow mb-1'>
-            <p className="text-xs tracking-wide"> All information on this site is for 
-             educational purposes only. 
-            Always consult a licensed veterinarian 
-            before giving any medicine to your animal.</p>
-          </div>}
-          <MdWarning onClick={() => setWarn(!warn)} size={24} color="red" className="cursor-pointer" />
-        </div>
+      
+      <div className='flex justify-center items-center w-full mt-4'>
+        <Page
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={(p) => setCurrentPage(p)}
+        />
       </div>
     </div>
   )
 }
-
-
-
 
 export default Problems
