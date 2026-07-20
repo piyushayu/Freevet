@@ -81,8 +81,7 @@ export async function getDiseasesWithSymptomsByAnimal(animalName) {
   const { data, error } = await supabase
     .from('diseases')
     .select(`
-      id, name, context,
-      symptoms,
+      *,
       animals!inner ( name )
     `)
     .ilike('animals.name', animalName)
