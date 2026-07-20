@@ -70,7 +70,7 @@ function Header({ className = "" }) {
       <div className="flex-1 flex justify-start">
         <Link to="/" className="flex items-center group cursor-pointer decoration-transparent">
           <img 
-            src="https://eczkxdnpwbohewsyikux.supabase.co/storage/v1/object/sign/Images/ChatGPT%20Image%20Jul%2018,%202026,%2006_35_45%20PM.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81YjIyZDEwYS03NDI0LTRiZWQtYTBkOS1hNzkxMDE2YWQwNTMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvQ2hhdEdQVCBJbWFnZSBKdWwgMTgsIDIwMjYsIDA2XzM1XzQ1IFBNLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODQ0NDAyNDYsImV4cCI6MTgxNTk3NjI0Nn0.BAtLvvUrxWXVAu5HspWXVAu5HspWXVAu5Hsp" 
+            src="https://eczkxdnpwbohewsyikux.supabase.co/storage/v1/object/public/Images/ChatGPT%20Image%20Jul%2018,%202026,%2006_35_45%20PM.png"
             alt="Freevet Logo" 
             className="w-12 sm:w-16 h-8 sm:h-10 object-contain opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
             onError={(e) => {
