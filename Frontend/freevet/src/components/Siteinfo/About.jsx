@@ -32,7 +32,7 @@ function About({openform , open}) {
     },
     {
       name: 'Reddit',
-      icon: <MessageSquare className="w-5 h-5 text-orange-400" />,
+      icon: <img src='https://eczkxdnpwbohewsyikux.supabase.co/storage/v1/object/public/Images/Screenshot%20(2477).png' className="w-full h-full object-cover scale-[1.15]" alt='reddit'/>,
       handle: 'r/vetsaathi',
       href: 'https://reddit.com',
       bgColor: 'hover:bg-orange-500/10',
@@ -40,8 +40,8 @@ function About({openform , open}) {
     },
     {
       name: 'Twitter',
-      icon: <img src="
-https://eczkxdnpwbohewsyikux.supabase.co/storage/v1/object/sign/Images/Screenshot%20(2324).png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81YjIyZDEwYS03NDI0LTRiZWQtYTBkOS1hNzkxMDE2YWQwNTMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvU2NyZWVuc2hvdCAoMjMyNCkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NDQ0NDAxNSwiZXhwIjoxODE1OTgwMDE1fQ.04mPcteesvdCnHbsNi3WhUcrND9YGVGso0RZ6s29dvU" className="w-5 h-5 object-contain" alt="Twitter" />,
+      icon: <img src="https://eczkxdnpwbohewsyikux.supabase.co/storage/v1/object/sign/Images/Screenshot%20(2324).png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81YjIyZDEwYS03NDI0LTRiZWQtYTBkOS1hNzkxMDE2YWQwNTMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvU2NyZWVuc2hvdCAoMjMyNCkucG5nIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NDQ0NDAxNSwiZXhwIjoxODE1OTgwMDE1fQ.04mPcteesvdCnHbsNi3WhUcrND9YGVGso0RZ6s29dvU" 
+      className="w-5 h-5 object-contain" alt="Twitter" />,
       handle: '@vetsaathi_app',
       href: 'https://twitter.com',
       bgColor: 'hover:bg-sky-500/10 ',
