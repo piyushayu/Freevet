@@ -97,7 +97,7 @@ function Profile({
             </svg>
             Bookmarked diseases
           </div>
-          <div className="flex flex-col gap-2 overflow-y-auto max-h-[140px] pr-1 custom-scrollbar">
+          <div className="flex flex-col gap-2 overflow-y-auto max-h-35 pr-1 custom-scrollbar">
             {bookmarks.length > 0 ? (
               bookmarks.map((disease, index) => (
                 <div
@@ -126,7 +126,7 @@ function Profile({
             </svg>
             Your likes
           </div>
-          <div className="flex flex-col gap-2 overflow-y-auto max-h-[140px] pr-1 custom-scrollbar">
+          <div className="flex flex-col gap-2 overflow-y-auto max-h-35 pr-1 custom-scrollbar">
             {likes.length > 0 ? (
               likes.map((like, index) => (
                 <div
@@ -155,7 +155,7 @@ function Profile({
             </svg>
             Search history
           </div>
-          <div className="flex flex-col gap-2 overflow-y-auto max-h-[140px] pr-1 custom-scrollbar">
+          <div className="flex flex-col gap-2 overflow-y-auto max-h-35 pr-1 custom-scrollbar">
             {searches.length > 0 ? (
               searches.map((search, index) => (
                 <div

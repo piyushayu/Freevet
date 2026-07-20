@@ -61,16 +61,20 @@ export async function getAnimalByName(name) {
   return { data, error }
 }
 
-export async function getDiseasesByAnimal(animalName) {
-  const { data, error } = await supabase
+export async function getDiseasesByAnimal(animalName, page = 1, limit = 5) {
+  const from = (page - 1) * limit
+  const to = from + limit - 1
+
+  const { data, error, count } = await supabase
     .from('diseases')
     .select(`
       *,
       animals!inner ( name )
-    `)
+    `, { count: 'exact' })
     .ilike('animals.name', animalName)
+    .range(from, to)
 
-  return { data, error }
+  return { data, error, count }
 }
 
 export async function getDiseasesWithSymptomsByAnimal(animalName) {
