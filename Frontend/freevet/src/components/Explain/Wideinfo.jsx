@@ -22,15 +22,23 @@ function Wideinfo({
   const [isBookmarked, setIsBookmarked] = useState(false)
 
   async function onlike () { 
-    setIsLiked(!isLiked)
-    if (!userId) return
-    await addLike(userId , diseaseid)
+    setIsLiked(true)
+    setTimeout(() => {
+      setIsLiked(false)
+    }, 300)
+
+    if (!userId || !diseaseid) return
+    await addLike(userId, diseaseid)
   }
 
   async function onbookmark () { 
-    setIsBookmarked(!isBookmarked)
-    if (!userId) return
-    await addBookmark(userId , diseaseid)
+    setIsBookmarked(true)
+    setTimeout(() => {
+      setIsBookmarked(false)
+    }, 300)
+
+    if (!userId || !diseaseid) return
+    await addBookmark(userId, diseaseid)
   }
 
   const handleReferenceClick = () => {

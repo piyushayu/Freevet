@@ -20,10 +20,10 @@ import { loginUser, signInWithGoogle, sendPasswordResetEmail } from "@/lib/auth"
 
 function Loginimage() {
   return (
-    <div className="hidden md:block h-full w-full">
+    <div className="w-full h-48 sm:h-64 md:h-full bg-white flex items-center justify-center border-none md:border-r border-zinc-200 dark:border-zinc-800 overflow-hidden">
       <img 
         src="https://eczkxdnpwbohewsyikux.supabase.co/storage/v1/object/public/Images/Screenshot%20(2352).png" 
-        className="h-full w-full object-cover" 
+        className="w-full h-full object-cover" 
         alt="Login background" 
       />
     </div>
@@ -239,7 +239,7 @@ function Logincomponent() {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-zinc-100 dark:bg-zinc-950 p-4 md:p-8">
       {/* Unified Split Container */}
-      <div className=" w-full max-w-5xl grid md:grid-cols-2 bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200/80 dark:border-zinc-800 shadow-2xl overflow-hidden items-stretch">
+      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200/80 dark:border-zinc-800 shadow-2xl overflow-hidden items-stretch">
         <Loginimage />
         <Loginform />
       </div>
