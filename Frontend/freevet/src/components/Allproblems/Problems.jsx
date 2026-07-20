@@ -58,6 +58,7 @@ function Problems() {
               Name={problem.name}
               context={problem.context}
               Info={problem.symptoms || []}
+              severity={problem.Severity || problem.severity}
               id={id}
             />
           </div>

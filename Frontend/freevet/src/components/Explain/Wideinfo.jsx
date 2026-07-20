@@ -59,7 +59,7 @@ function Wideinfo({
               href={reference}
               target="_blank"
               rel="noopener noreferrer"
-              className='h-10 px-4 inline-flex items-center justify-center gap-2 text-sm font-semibold rounded-full bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 hover:text-white hover:bg-cyan-500/20 hover:border-cyan-400 transition-all duration-300 ease-out transform hover:-translate-y-1 hover:scale-105 hover:shadow-xl hover:shadow-cyan-500/30 active:translate-y-0 active:scale-100 cursor-pointer select-none'
+              className='h-10 px-4 inline-flex items-center justify-center gap-2 text-sm font-semibold rounded-full border border-cyan-500/50 text-white hover:border-cyan-400 shadow-md shadow-cyan-500/10 transition-all duration-300 ease-out transform hover:-translate-y-1 hover:scale-105 hover:shadow-xl hover:shadow-cyan-500/30 active:translate-y-0 active:scale-100 cursor-pointer select-none'
             >
               <ExternalLink className="w-4 h-4 text-cyan-400" />
               <span>Reference</span>
